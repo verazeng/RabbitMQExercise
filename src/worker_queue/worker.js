@@ -1,13 +1,13 @@
-var amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
 
 amqp.connect('amqp://localhost', function(err, conn) {
   conn.createChannel(function(err, ch) {
-    var q = 'task_queue';
+    const q = 'task_queue';
     ch.assertQueue(q, {durable: true});
     ch.prefetch(1);
     console.log('[*] Waiting for message in %s.', q);
     ch.consume(q, function(msg) {
-      var secs = msg.content.toString().split('.').length - 1;
+      let secs = msg.content.toString().split('.').length - 1;
       console.log(" [x] Received %s", msg.content.toString());
 
       setTimeout(function() {
